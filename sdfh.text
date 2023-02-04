@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+        h1{
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <?php
+    // الاتصال مع قاعدة البيانات 
+    // $host=`localhost`;
+    // $user=`root`;
+    // $pass='';
+    // $db='library';
+    $conn = mysqli_connect('localhost', 'root', '', 'library');
+    // // $con=mysql_connect($host,$user,$pass,$db);select * from books
+    // $res= mysql_query($con,'SELECT * FROM books');
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $query = "SELECT * FROM books ";
+    $result = mysqli_query($conn, $query);
+    
+    # button variables
+    $book_id='';
+    $title='';
+    $author='';
+    $publisher='';
+    $year='';
+    $pages='';
+    if(isset($_POST[`book_id`])){
+        $book_id=$_POST[`book_id`];
+    }
+    if(isset($_POST[`title`])){
+        $title=$_POST[`title`];
+    }
+    if(isset($_POST[`author`])){
+        $author=$_POST[`author`];
+    }
+    if(isset($_POST[`publisher`])){
+        $publisher=$_POST[`publisher`];
+    }
+    if(isset($_POST[`year`])){
+        $year=$_POST[`year`];
+    }
+    if(isset($_POST[`pages`])){
+        $pages=$_POST[`pages`];
+    }
+    $sqle='';
+    if(isset($_POST[`add`])){
+        $sqle="insert into books value($book_id,'$title','$author','$publisher',$year,$pages)";
+        mysqli_query($conn, $sqle);
+        // echo "Book added successfully";
+        header("location:Test.php");
+    }
+    ?>
+    <h1>المكتبة العامة</h1>
+    <hr/>
+    <p>
+    مرحبا بك 
+    <span>
+        المكتبة العامة
+    </span> 
+    في صفحة ادخال البيانات 
+      </p>
+<form method="POST">
+
+      <div>
+        <label>رقم الكتاب </label>
+        <input id="book_id" />
+      </div>
+      <div>
+        <label>عنوان الكتاب</label>
+        <input  id="title"  />
+      </div>
+      <div>
+        <label>اسم المؤلف</label>
+        <input id="author" />
+      </div>
+      <div>
+        <label>اسم دار النشر</label>
+        <input id="publisher" />
+      </div>
+      <div>
+        <label>سنة الاصدار</label>
+        <input id="year" />
+      </div>
+      <div>
+        <label> عدد صفحات الكتاب </label>
+        <input id="pages" />
+      </div>
+      <div>
+        <button name="add">ادخال</button>
+        <button>الغاء</button>
+      </div>
+    </form>
+</body>
+</html>
